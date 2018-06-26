@@ -1,23 +1,37 @@
 package com.software.domain;
 
 public class order {
-private int ordernum;
-private int goodid;
+private String ordernum;
+private String goodname;
 private String username;
 private float goodprice;
 private int goodnum;
 private float goodtotal;
-public int getOrdernum() {
+
+public order(){
+	
+}
+public order(String ordernum, String goodname, String username, float goodprice, int goodnum, float goodtotal) {
+	// TODO Auto-generated constructor stub
+	super();
+	this.ordernum=ordernum;
+	this.username = username;
+	this.goodname = goodname;
+	this.goodprice =goodprice;
+	this.goodnum=goodnum;
+	this.goodtotal =goodtotal;
+}
+public String getOrdernum() {
 	return ordernum;
 }
-public void setOrdernum(int ordernum) {
+public void setOrdernum(String ordernum) {
 	this.ordernum = ordernum;
 }
-public int getGoodid() {
-	return goodid;
+public String getGoodname() {
+	return goodname;
 }
-public void setGoodid(int goodid) {
-	this.goodid = goodid;
+public void setGoodname(String goodname) {
+	this.goodname = goodname;
 }
 public String getUsername() {
 	return username;

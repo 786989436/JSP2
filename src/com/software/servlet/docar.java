@@ -3,6 +3,8 @@ package com.software.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -61,10 +63,7 @@ public class docar extends HttpServlet {
 			buy(request,response);
 		}
 		//移除
-		else if(action.equals("remove")){
-			remove(request,response);
-		 	
-		}
+
 		else if(action.equals("delete")){
 			delete(request,response);
 		}
@@ -81,10 +80,22 @@ public class docar extends HttpServlet {
 			subOne(request,response);
 	
 		}
+		else if(action.equals("buyone")){
+			buyone(request,response);
+	
+		}
+		else if(action.equals("buyall")){
+			buyall(request,response);
+	
+		}
+		else if(action.equals("deleteorder")){
+			deleteorder(request,response);
+	
+		}
 	}
 		protected void buy(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-			HttpSession session=request.getSession();
+		HttpSession session=request.getSession();
 		
 		
 		UserInfo user1=(UserInfo)request.getSession().getAttribute("user1");
@@ -134,24 +145,7 @@ public class docar extends HttpServlet {
 		response.sendRedirect(request.getContextPath()+"/MyWeb/main.jsp");
 		}	
 		
-		protected void remove(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			//利用商品名和用户名定位商品
-			HttpSession session=request.getSession();
-			UserInfo user1=(UserInfo)request.getSession().getAttribute("user1");
-			
-			
-			ArrayList buylist=(ArrayList)session.getAttribute("buylist");
-			
-			String name=request.getParameter("name");
-			ShopCar shopcar=new ShopCar();
-			ShopDoCar mycar=new ShopDoCar();
-			
-			shopcar.setUsername(user1.getUsername());
-			shopcar.setGoodname(name);
-			mycar.setBuylist(buylist);
-			mycar.removeItem(shopcar);
-			response.sendRedirect(request.getContextPath()+"/Shopcar/shopcar.jsp");
-	}
+
 		
 		protected void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			HttpSession session=request.getSession();
@@ -170,6 +164,16 @@ public class docar extends HttpServlet {
 			mycar.deleteItem(shopcar);
 			response.sendRedirect(request.getContextPath()+"/Shopcar/shopcar.jsp");
 		}
+		protected void deleteorder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			HttpSession session=request.getSession();
+			ArrayList orderlist=(ArrayList)session.getAttribute("orderlist");
+			
+			String orderId=request.getParameter("orderId");
+			orderDoCar ordercar=new orderDoCar();
+			ordercar.setBuylist(orderlist);
+			ordercar.deleteItem(orderId);
+			response.sendRedirect(request.getContextPath()+"/MyWeb/order.jsp");
+		}
 		protected void clear(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			//利用session中的user1，删除用户名与user1相同的所有数据
 			HttpSession session=request.getSession();
@@ -183,6 +187,60 @@ public class docar extends HttpServlet {
 			response.sendRedirect(request.getContextPath()+"/Shopcar/shopcar.jsp");
 		
 	}
+		protected void buyone(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			HttpSession session=request.getSession();
+			UserInfo user1=(UserInfo)request.getSession().getAttribute("user1");
+			ArrayList buylist=(ArrayList)session.getAttribute("buylist");
+			
+			String name=request.getParameter("name");
+			float price=Float.valueOf(request.getParameter("price"));
+			int num=Integer.valueOf(request.getParameter("num"));
+			float money=Float.valueOf(request.getParameter("money"));
+			ShopCar shopcar=new ShopCar();
+			ShopDoCar mycar=new ShopDoCar();
+			order order=new order();
+			orderDoCar ordercar=new orderDoCar();
+			
+			shopcar.setUsername(user1.getUsername());
+			shopcar.setGoodname(name);
+			
+			Calendar c = Calendar.getInstance();//可以对每个时间域单独修改   
+			String year =String.valueOf(c.get(Calendar.YEAR)); 
+			String month =String.valueOf(c.get(Calendar.MONTH)); 
+			String date =String.valueOf(c.get(Calendar.DATE)); 
+			String  hour =String.valueOf(c.get(Calendar.HOUR_OF_DAY)); 
+			String minute =String.valueOf( c.get(Calendar.MINUTE)); 
+			String second =String.valueOf(c.get(Calendar.SECOND)); 
+
+	
+			
+			order.setOrdernum(year+month+date+hour+minute+second);
+			order.setGoodname(name);
+			order.setUsername(user1.getUsername());
+			order.setGoodnum(num);
+			order.setGoodprice(price);
+			order.setGoodtotal(money);
+			
+		/*	ordercar.setBuylist(orderlist);*/
+			ordercar.addItem(order);
+			
+			
+			mycar.setBuylist(buylist);
+			mycar.deleteItem(shopcar);
+			response.sendRedirect(request.getContextPath()+"/Shopcar/shopcar.jsp");
+		}
+		
+		protected void buyall(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			HttpSession session=request.getSession();
+			UserInfo user1=(UserInfo)request.getSession().getAttribute("user1");
+			ArrayList buylist=(ArrayList)session.getAttribute("buylist");
+			ShopCar shopcar=new ShopCar();
+			shopcar.setUsername(user1.getUsername());
+			buylist.clear();
+			getCarService().clear(shopcar);
+			
+			response.sendRedirect(request.getContextPath()+"/Shopcar/shopcar.jsp");
+		}
 		protected void addOne(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		     
 			System.out.println("1111111");

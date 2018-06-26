@@ -1,3 +1,4 @@
+ 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%-- <%@ page contentType="text/html;charset=gb2312" %>  --%>
@@ -92,16 +93,15 @@ if(buylist==null){
 <table name="table1" id="table1" border="1" width="600" rules="none" cellspacing="0" cellpadding="0" align="center">
 <tr height="50"><td colspan="6" align="center">购买结果如下</td></tr>
 <tr align="center" height="30" bgcolor="lightgrey">
-	<td width="25%">订单号</td>
-	<td>商品名</td>
-	<td>买家</td>
+	<td width="25%">名称</td>
 	<td>价格</td>
 	<td>数量</td>
 	<td>总价</td>
-	<td>状态</td>
+	<td>购买</td>
+	<td>删除</td>
 </tr>
 <% if(buylist==null||buylist.size()==0) {%>
-<tr height="100"><td colspan="6" align="center">您的订单表为空！</td></tr>
+<tr height="100"><td colspan="6" align="center">您的购物车为空！</td></tr>
 <%}else{
 	 for(int i=0;i<buylist.size();i++){
 		ShopCar good=(ShopCar)buylist.get(i);
@@ -111,7 +111,7 @@ if(buylist==null){
 		int num=good.getNum();
 		float money=good.getTotal();
  		total+=money;
- 		out.println(price);
+
 	%>
 
 <tr align="center" height="50">
@@ -129,7 +129,7 @@ if(buylist==null){
 
 <td id="name2" name="name2"><%=money %></td>
 <td>
-<a href="<%=path %>/docar?action=remove&name=<%=name%>">移除</a>
+<a href="<%=path %>/docar?action=buyone&name=<%=name%>&price=<%=price%>&num=<%=num%>&money=<%=money%>">购买</a>
 </td>
 <td>
 <a href="<%=path %>/docar?action=delete&name=<%=name%>">删除</a>
@@ -146,6 +146,9 @@ if(buylist==null){
 
 <tr height="50" align="center">
 	<td colspan="2"><a href="<%=path %>/MyWeb/main.jsp">继续购物</a></td>
+	<td colspan="1"><a href="<%=path %>/docar?action=buyall&buylist=<%=buylist%>">全部购买</a></td>
+	
+	<td colspan="1"><a href="<%=path %>/docar?action=clear">清空购物车</a></td>
 	
 	<td colspan="2"><a href="<%=path %>/MyWeb/main.jsp">返回至主页</a></td>
 </tr>

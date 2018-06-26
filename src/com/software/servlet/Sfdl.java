@@ -63,6 +63,9 @@ public class Sfdl extends HttpServlet {
 				if(value.equals("2")){
 					response.sendRedirect(request.getContextPath()+"/Shopcar/shopcar.jsp");
 				}
+				else if(value.equals("3")){
+					response.sendRedirect(request.getContextPath()+"/MyWeb/order.jsp");
+				}
 				else{
 					response.sendRedirect(request.getContextPath()+"/MyWeb/my.jsp");
 				}

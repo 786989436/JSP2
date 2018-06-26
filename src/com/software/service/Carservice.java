@@ -45,9 +45,6 @@ public class Carservice {
 	public boolean addOne(String username,String name){
 		ShopCar shopcar=(ShopCar)findByNameAndname(username,name);
 	
-		System.out.println(shopcar.getNum());
-		System.out.println(shopcar.getPrice());
-		System.out.println(shopcar.getTotal());
 		
 		return getShopDao().AddOne(username,shopcar);
 	}

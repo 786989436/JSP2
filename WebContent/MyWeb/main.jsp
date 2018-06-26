@@ -60,7 +60,7 @@ if(a.nextInt(10)==1){%>
  --%>
  
  
-<font size="5"><a href="<%=request.getContextPath() %>/sfzc?action1=1">&#30331;&#24405; </a>|<a href="<%=request.getContextPath() %>/MyWeb/registered.jsp">&#27880;&#20876;</a>|<a href="<%=request.getContextPath() %>/sfzc?action1=2">个人信息</a>|<a href="<%=path %>/Sfdl?value=2">查看购物车</a>|<a href="<%=request.getContextPath() %>/MyWeb/zx.jsp">注销</a>|<a href="<%=path %>/Mail/sendmail.jsp">反馈</a></font>
+<font size="5"><a href="<%=request.getContextPath() %>/sfzc?action1=1">&#30331;&#24405; </a>|<a href="<%=request.getContextPath() %>/MyWeb/registered.jsp">&#27880;&#20876;</a>|<a href="<%=request.getContextPath() %>/sfzc?action1=2">个人信息</a>|<a href="<%=path %>/Sfdl?value=2">查看购物车</a>|<a href="<%=path %>/Sfdl?value=3">查看订单</a>|<a href="<%=request.getContextPath() %>/MyWeb/zx.jsp">注销</a>|<a href="<%=path %>/Mail/sendmail.jsp">反馈</a></font>
 <hr  color="black">
 
 <%-- <%if(username!=null){

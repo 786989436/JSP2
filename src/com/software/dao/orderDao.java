@@ -3,6 +3,7 @@ package com.software.dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import com.software.domain.*;
 import com.software.utils.*;
@@ -13,7 +14,7 @@ public class orderDao {
 	private ResultSet rs = null;
 
 	
-	public boolean  select(int ordernum) {
+	public boolean  selectCarGood(int ordernum) {
 		try {
 			conn = JDBC2.getConn();
 			stm = conn.createStatement();
@@ -31,12 +32,25 @@ public class orderDao {
 	}
 
 	
-	public void add(UserInfo user) {
+/*	public void add(order single) {
 		try {
 			conn = JDBC2.getConn();
 			stm = conn.createStatement();
-			stm.executeUpdate("insert into user values('" + user.getUsername()
-					+ "','" + user.getPassword() + "','"+user.getMail()+"')");
+			stm.executeUpdate("insert into Order values('" "')");
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBC2.close(rs, stm, conn);
+		}
+	}*/
+
+	public void addItem(order single) {
+		try {
+			conn = JDBC2.getConn();
+			stm = conn.createStatement();
+			stm.executeUpdate("insert into dingdan values('" + single.getOrdernum()+ "','" + single.getGoodname() + "','"+single.getUsername()+"','"+single.getGoodprice()+"','"+single.getGoodnum()+"','"+single.getGoodtotal()+"')");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,12 +58,11 @@ public class orderDao {
 			JDBC2.close(rs, stm, conn);
 		}
 	}
-
-	public void delete(String username) {
+	public void delete(String orderId) {
 		try {
 			conn = JDBC2.getConn();
 			stm = conn.createStatement();
-			stm.executeUpdate("delete from user where username='" + username
+			stm.executeUpdate("delete from dingdan where OrderNum='" + orderId
 					+ "'");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -74,7 +87,7 @@ public class orderDao {
 		}
 	}
 
-	public UserInfo findByName(String username) {
+/*	public UserInfo findByName(String username) {
 		UserInfo user = null;
 		try {
 			conn = JDBC2.getConn();
@@ -94,8 +107,33 @@ public class orderDao {
 			JDBC2.close(rs, stm, conn);
 		}
 		return user;
+	}*/
+	public ArrayList findByName(String username) {
+		ArrayList orderlist=new ArrayList();
+		order buyer=new order();
+		System.out.println(username);
+		try {
+			conn = JDBC2.getConn();
+			stm = conn.createStatement();
+			rs = stm.executeQuery("select * from dingdan where Buyer='"
+					+ username + "'");
+			while(rs.next()) {
+				buyer = new order(rs.getString("OrderNum"),
+						rs.getString("GoodName"),
+						rs.getString("Buyer"),
+						rs.getFloat("GoodPrice"),
+						rs.getInt("GoodNum"),
+						rs.getFloat("GoodTotal"));
+			orderlist.add(buyer);			
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBC2.close(rs, stm, conn);
+		}
+		return orderlist;
 	}
-
 	public UserInfo findByNameAndPwd(String username, String password) {
 		UserInfo user = null;
 		try {
