@@ -31,6 +31,8 @@
 <table width="1538">
 <tr>
 <td width="462" height="428"><img src="<%=path %>/img/sss.jpg" width="362" height="231" class="logo"></td>
+
+
 <!-- 显示用户名 -->
 <%if(status==null){%>
 <td width="661"><font size="45" >welcome to shopping</font></td>
